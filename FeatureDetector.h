@@ -26,7 +26,6 @@ private:
     Mat grayPrev; // previous grayscale frame
 
     vector<Point2f> points[2];  // Tracked features from 0->1
-    vector<Point2f> initial;    // Initial position of tracked points
     vector<Point2f> features;   // detected features
     vector <uchar> status;      // status of tracked features
     vector <float> err;         // error in tracking

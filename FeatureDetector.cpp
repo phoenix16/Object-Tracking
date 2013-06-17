@@ -48,24 +48,21 @@ void FeatureDetector::performFeatureDetection(Mat& frame)
 
         // Add detected features to currently tracked features
         points[0].insert(points[0].end(), features.begin(), features.end());
-        // make a copy of points[0] in initial to draw motion vectors later
-        initial.insert(initial.end(), features.begin(), features.end());
     }
 
     // Track features using Lucas-Kanade method
     cout << "Calculating Optical Flow..." << endl;
     calcOpticalFlowPyrLK(grayPrev, gray,  // 2 consecutive frames
                          points[0],       // input point positions in prev frame
-            points[1],       // output point positions in current frame
-            status,          // tracking success
-            err);            // tracking error
+                         points[1],       // output point positions in current frame
+                         status,          // tracking success
+                         err);            // tracking error
 
 
     // Loop over the tracked points to reject some
     int numValid = 0;
     for (size_t i = 0; i < points[1].size(); i++)  // check every feature point
     {
-
         if ( status[i] == 0 )
             continue; // Don't consider points rejected by optical flow
         //            (status[i] &&
@@ -84,7 +81,7 @@ void FeatureDetector::performFeatureDetection(Mat& frame)
         double hypotenuse;
         hypotenuse = sqrt( square(p.y - q.y) + square(p.x - q.x) );
 
-        // Lengthen the arrow by a factor of three (else arrows are short because of barely any motion between frames)
+        // Lengthen the line by a factor of 3 (else arrows are short because of barely any motion between frames)
         q.x = (int) (p.x - 3 * hypotenuse * cos(angle));
         q.y = (int) (p.y - 3 * hypotenuse * sin(angle));
 
